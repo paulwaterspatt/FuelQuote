@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Truck Delivery Quote Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .result p { font-size: 1.25rem; }
+        #markupLine {
+            display: none;
+        }
+        #totalCostLine {
+            display: none;
+        }
+        #warning {
+            color: red;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Truck Delivery Quote Calculator</h2>
+
+    <div class="card p-4 shadow">
+        <div class="mb-3">
+            <label for="distance" class="form-label">Enter Distance (miles)</label>
+            <input type="number" class="form-control" id="distance" placeholder="e.g. 150" min="0" oninput="calculate()" />
+        </div>
+
+        <div class="mb-3">
+            <label for="customQuote" class="form-label">Custom Quote (£)</label>
+            <input type="number" class="form-control" id="customQuote" placeholder="Enter custom quote" min="0" step="0.01" oninput="checkCustomQuote()" />
+            <div id="warning">Quote Too Low</div>
+        </div>
+
+        <div class="result mt-4">
+            <p><strong>Fuel Cost:</strong> <span id="fuelCost">£0.00</span></p>
+            <p id="totalCostLine"><strong>Total Cost (before markup):</strong> <span id="totalCost">£0.00</span></p>
+            <p id="markupLine"><strong>Markup (30%):</strong> <span id="markupAmount">£0.00</span></p>
+            <p><strong>Final Quote Price:</strong> <span id="finalQuote">£0.00</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const costPerGallon = 5;
+    const mpg = 6.8;
+    const truckCost = 718;
+    const markupRate = 0.30; // 30% markup
+
+    let totalCostGlobal = 0; // to hold total cost for comparison
+
+    function formatCurrency(value) {
+        return value.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
+    }
+
+    function calculate() {
+        const distanceInput = document.getElementById('distance').value;
+        const distance = Number(distanceInput);
+
+        if (!distanceInput || isNaN(distance) || distance <= 0) {
+            resetOutputs();
+            return;
+        }
+
+        const gallonsUsed = distance / mpg;
+        const fuelCost = gallonsUsed * costPerGallon;
+        const totalCost = truckCost + fuelCost;
+        const markupAmount = totalCost * markupRate;
+        const finalQuote = totalCost + markupAmount;
+
+        totalCostGlobal = totalCost; // update global total cost for warning check
+
+        document.getElementById('fuelCost').innerText = formatCurrency(fuelCost);
+        document.getElementById('totalCost').innerText = formatCurrency(totalCost);
+        document.getElementById('markupAmount').innerText = formatCurrency(markupAmount);
+        document.getElementById('finalQuote').innerText = formatCurrency(finalQuote);
+
+        checkCustomQuote(); // check warning when recalculating
+    }
+
+    function checkCustomQuote() {
+        const customQuoteInput = document.getElementById('customQuote').value;
+        const customQuote = Number(customQuoteInput);
+        const warningEl = document.getElementById('warning');
+
+        if (!customQuoteInput || isNaN(customQuote)) {
+            warningEl.style.display = 'none';
+            return;
+        }
+
+        if (customQuote < totalCostGlobal) {
+            warningEl.style.display = 'block';
+        } else {
+            warningEl.style.display = 'none';
+        }
+    }
+
+    function resetOutputs() {
+        document.getElementById('fuelCost').innerText = '£0.00';
+        document.getElementById('totalCost').innerText = '£0.00';
+        document.getElementById('markupAmount').innerText = '£0.00';
+        document.getElementById('finalQuote').innerText = '£0.00';
+        document.getElementById('warning').style.display = 'none';
+        totalCostGlobal = 0;
+    }
+</script>
+
+</body>
+</html>
