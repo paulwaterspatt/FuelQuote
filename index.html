@@ -9,27 +9,20 @@
         #markupLine {
             display: none;
         }
+        /* #totalCostLine { display: none; }  <-- This is removed to unhide the total cost line */
         #warning {
             color: red;
             font-weight: bold;
             margin-top: 0.5rem;
             display: none;
         }
-        .logo {
-            max-height: 80px;
-        }
     </style>
 </head>
 <body class="bg-light">
 
 <div class="container py-5">
-    <!-- Logo Section -->
-    <div class="d-flex align-items-center mb-4">
-        
-        <h2 class="mb-0">Truck Delivery Quote Calculator</h2>
-    </div>
-
     <p>Last Edited June 2025</p>
+    <h2 class="mb-4 text-center">Truck Delivery Quote Calculator</h2>
 
     <div class="card p-4 shadow">
 
@@ -63,7 +56,7 @@
 
         <div class="result mt-4">
             <p><strong>Fuel Cost:</strong> <span id="fuelCost">£0.00</span></p>
-            <p id="totalCostLine"><strong>Total Cost:</strong> <span id="totalCost">£0.00</span></p>
+            <p id="totalCostLine"><strong>Total Cost (before markup):</strong> <span id="totalCost">£0.00</span></p>
             <p id="markupLine"><strong>Markup (30%):</strong> <span id="markupAmount">£0.00</span></p>
             <p><strong>Final Quote Price:</strong> <span id="finalQuote">£0.00</span></p>
         </div>
