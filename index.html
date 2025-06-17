@@ -9,9 +9,7 @@
         #markupLine {
             display: none;
         }
-        #totalCostLine {
-            display: none;
-        }
+        /* #totalCostLine { display: none; }  <-- This is removed to unhide the total cost line */
         #warning {
             color: red;
             font-weight: bold;
@@ -27,6 +25,24 @@
     <h2 class="mb-4 text-center">Truck Delivery Quote Calculator</h2>
 
     <div class="card p-4 shadow">
+
+        <!-- Google Maps Miles Calculator -->
+        <div class="mb-4">
+            <h5>Miles Calculator (Google Maps)</h5>
+            <div class="row">
+                <div class="col-md-5 mb-2">
+                    <input type="text" class="form-control" id="origin" placeholder="Enter Origin" />
+                </div>
+                <div class="col-md-5 mb-2">
+                    <input type="text" class="form-control" id="destination" placeholder="Enter Destination" />
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-primary w-100" onclick="openGoogleMaps()">Open Google Maps</button>
+                </div>
+            </div>
+            <small>Enter your start and end locations to open Google Maps with directions.</small>
+        </div>
+
         <div class="mb-3">
             <label for="distance" class="form-label">Enter Distance (miles)</label>
             <input type="number" class="form-control" id="distance" placeholder="e.g. 150" min="0" oninput="calculate()" />
@@ -40,7 +56,7 @@
 
         <div class="result mt-4">
             <p><strong>Fuel Cost:</strong> <span id="fuelCost">£0.00</span></p>
-            <p id="totalCostLine"><strong>Total Cost (before markup):</strong> <span id="totalCost">£0.00</span></p>
+            <p id="totalCostLine"><strong>Total Cost:</strong> <span id="totalCost">£0.00</span></p>
             <p id="markupLine"><strong>Markup (30%):</strong> <span id="markupAmount">£0.00</span></p>
             <p><strong>Final Quote Price:</strong> <span id="finalQuote">£0.00</span></p>
         </div>
@@ -51,9 +67,9 @@
     const costPerGallon = 5;
     const mpg = 6.8;
     const truckCost = 718;
-    const markupRate = 0.30; // 30% markup
+    const markupRate = 0.30;
 
-    let totalCostGlobal = 0; // to hold total cost for comparison
+    let totalCostGlobal = 0;
 
     function formatCurrency(value) {
         return value.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
@@ -74,14 +90,14 @@
         const markupAmount = totalCost * markupRate;
         const finalQuote = totalCost + markupAmount;
 
-        totalCostGlobal = totalCost; // update global total cost for warning check
+        totalCostGlobal = totalCost;
 
         document.getElementById('fuelCost').innerText = formatCurrency(fuelCost);
         document.getElementById('totalCost').innerText = formatCurrency(totalCost);
         document.getElementById('markupAmount').innerText = formatCurrency(markupAmount);
         document.getElementById('finalQuote').innerText = formatCurrency(finalQuote);
 
-        checkCustomQuote(); // check warning when recalculating
+        checkCustomQuote();
     }
 
     function checkCustomQuote() {
@@ -108,6 +124,19 @@
         document.getElementById('finalQuote').innerText = '£0.00';
         document.getElementById('warning').style.display = 'none';
         totalCostGlobal = 0;
+    }
+
+    function openGoogleMaps() {
+        const origin = encodeURIComponent(document.getElementById('origin').value);
+        const destination = encodeURIComponent(document.getElementById('destination').value);
+
+        if (!origin || !destination) {
+            alert("Please enter both origin and destination.");
+            return;
+        }
+
+        const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+        window.open(url, '_blank');
     }
 </script>
 
