@@ -35,53 +35,76 @@
             <p class="text-muted">Keeping everyone informed and updated</p>
         </div>
 
-        <!-- Fuel Prices -->
-        <div class="mb-4">
-            <h3 class="section-title">Fuel Prices</h3>
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between">
-                    Diesel <span>£1.10 / gallon</span>
-                </li>
-            </ul>
-        </div>
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="hire-desk-tab" data-bs-toggle="tab" data-bs-target="#hire-desk" type="button" role="tab" aria-controls="hire-desk" aria-selected="true">Hire Desk</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="workshop-tab" data-bs-toggle="tab" data-bs-target="#workshop" type="button" role="tab" aria-controls="workshop" aria-selected="false">Workshop</button>
+            </li>
+        </ul>
 
-        <!-- Holidays -->
-        <div class="mb-4">
-            <h3 class="section-title">Holidays This Week</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Employee</th>
-                        <th>From</th>
-                        <th>To</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>2025-06-17</td>
-                        <td>2025-06-21</td>
-                    </tr>
-                    <tr>
-                        <td>Lisa Johnson</td>
-                        <td>2025-06-19</td>
-                        <td>2025-06-22</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="tab-content" id="myTabContent">
+            <!-- Hire Desk Tab -->
+            <div class="tab-pane fade show active" id="hire-desk" role="tabpanel" aria-labelledby="hire-desk-tab">
+                <!-- Fuel Prices -->
+                <div class="mb-4 mt-4">
+                    <h3 class="section-title">Fuel Prices</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            Diesel <span>£1.10 / gallon</span>
+                        </li>
+                    </ul>
+                </div>
 
-        <!-- General Information -->
-        <div class="mb-4">
-            <h3 class="section-title">General Information</h3>
-            <div class="alert alert-info" role="alert">
-                Safety meeting scheduled for Friday at 9:00 AM in the main office.
+                <!-- Holidays -->
+                <div class="mb-4">
+                    <h3 class="section-title">Holidays This Week</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Smith</td>
+                                <td>2025-06-17</td>
+                                <td>2025-06-21</td>
+                            </tr>
+                            <tr>
+                                <td>Lisa Johnson</td>
+                                <td>2025-06-19</td>
+                                <td>2025-06-22</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- General Information -->
+                <div class="mb-4">
+                    <h3 class="section-title">General Information</h3>
+                    <div class="alert alert-info" role="alert">
+                        Safety meeting scheduled for Friday at 9:00 AM in the main office.
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        Crane #2 scheduled for maintenance on Wednesday.
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                        Congratulations to the crew for completing the foundation ahead of schedule!
+                    </div>
+                </div>
             </div>
-            <div class="alert alert-warning" role="alert">
-                Crane #2 scheduled for maintenance on Wednesday.
-            </div>
-            <div class="alert alert-success" role="alert">
-                Congratulations to the crew for completing the foundation ahead of schedule!
+
+            <!-- Workshop Tab -->
+            <div class="tab-pane fade" id="workshop" role="tabpanel" aria-labelledby="workshop-tab">
+                <div class="mt-4">
+                    <h3 class="section-title">Workshop</h3>
+                    <p>No information available yet.</p>
+                </div>
             </div>
         </div>
     </div>
