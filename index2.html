@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mileage Calculator</title>
+    <title>Mileage Calculator (REST API)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Load Google Maps JavaScript API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -27,36 +25,33 @@
     </div>
 
     <script>
-        function getDrivingDistance() {
-            const origin = document.getElementById("origin").value;
-            const destination = document.getElementById("destination").value;
+        async function getDrivingDistance() {
+            const origin = encodeURIComponent(document.getElementById("origin").value);
+            const destination = encodeURIComponent(document.getElementById("destination").value);
+            const apiKey = 'YOUR_API_KEY';
 
-            if (!origin || !destination) {
-                alert("Please enter both origin and destination addresses.");
+            const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin}&destinations=${destination}&key=${apiKey}`;
+
+            // IMPORTANT: This request needs to be done server-side to hide API key
+            alert("In production, this request should be made server-side to keep your API key secure!");
+
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // only for development, not for production
+            const response = await fetch(proxyUrl + url);
+            const data = await response.json();
+
+            if (data.status !== 'OK') {
+                alert('Error: ' + data.status);
                 return;
             }
 
-            const service = new google.maps.DistanceMatrixService();
-            service.getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.IMPERIAL
-            }, function(response, status) {
-                if (status !== 'OK') {
-                    alert("Error: " + status);
-                } else {
-                    const element = response.rows[0].elements[0];
-                    if (element.status === "OK") {
-                        const distanceText = element.distance.text;
-                        const distanceValue = element.distance.value / 1609.34; // Convert meters to miles
-                        document.getElementById("result").classList.remove("d-none");
-                        document.getElementById("result").innerHTML = `Driving distance: ${distanceValue.toFixed(2)} miles`;
-                    } else {
-                        alert("Could not calculate distance: " + element.status);
-                    }
-                }
-            });
+            const element = data.rows[0].elements[0];
+            if (element.status === "OK") {
+                const distanceText = element.distance.text;
+                document.getElementById("result").classList.remove("d-none");
+                document.getElementById("result").innerHTML = `Driving distance: ${distanceText}`;
+            } else {
+                alert("Could not calculate distance: " + element.status);
+            }
         }
     </script>
 </body>
