@@ -2,57 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mileage Calculator (REST API)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Company Notice Board</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .notice-board {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .notice-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Driving Mileage Calculator</h1>
-
-        <div class="mb-3">
-            <label for="origin" class="form-label">Origin Address:</label>
-            <input type="text" id="origin" class="form-control" placeholder="Enter origin address">
+    <div class="notice-board">
+        <div class="notice-header">
+            <h1>Construction Company Notice Board</h1>
+            <p class="text-muted">Keeping everyone informed and updated</p>
         </div>
 
-        <div class="mb-3">
-            <label for="destination" class="form-label">Destination Address:</label>
-            <input type="text" id="destination" class="form-control" placeholder="Enter destination address">
+        <!-- Fuel Prices -->
+        <div class="mb-4">
+            <h3 class="section-title">Fuel Prices</h3>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between">
+                    Diesel <span>$3.45 / gallon</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Petrol <span>$4.05 / gallon</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    Hydraulic Oil <span>$2.85 / liter</span>
+                </li>
+            </ul>
         </div>
 
-        <button class="btn btn-primary" onclick="getDrivingDistance()">Calculate Mileage</button>
+        <!-- Holidays -->
+        <div class="mb-4">
+            <h3 class="section-title">Holidays This Week</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>From</th>
+                        <th>To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Smith</td>
+                        <td>2025-06-17</td>
+                        <td>2025-06-21</td>
+                    </tr>
+                    <tr>
+                        <td>Lisa Johnson</td>
+                        <td>2025-06-19</td>
+                        <td>2025-06-22</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <div id="result" class="alert alert-info mt-4 d-none"></div>
+        <!-- General Information -->
+        <div class="mb-4">
+            <h3 class="section-title">General Information</h3>
+            <div class="alert alert-info" role="alert">
+                Safety meeting scheduled for Friday at 9:00 AM in the main office.
+            </div>
+            <div class="alert alert-warning" role="alert">
+                Crane #2 scheduled for maintenance on Wednesday.
+            </div>
+            <div class="alert alert-success" role="alert">
+                Congratulations to the crew for completing the foundation ahead of schedule!
+            </div>
+        </div>
     </div>
 
-    <script>
-        async function getDrivingDistance() {
-            const origin = encodeURIComponent(document.getElementById("origin").value);
-            const destination = encodeURIComponent(document.getElementById("destination").value);
-            const apiKey = 'YOUR_API_KEY';
-
-            const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin}&destinations=${destination}&key=${apiKey}`;
-
-            // IMPORTANT: This request needs to be done server-side to hide API key
-            alert("In production, this request should be made server-side to keep your API key secure!");
-
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // only for development, not for production
-            const response = await fetch(proxyUrl + url);
-            const data = await response.json();
-
-            if (data.status !== 'OK') {
-                alert('Error: ' + data.status);
-                return;
-            }
-
-            const element = data.rows[0].elements[0];
-            if (element.status === "OK") {
-                const distanceText = element.distance.text;
-                document.getElementById("result").classList.remove("d-none");
-                document.getElementById("result").innerHTML = `Driving distance: ${distanceText}`;
-            } else {
-                alert("Could not calculate distance: " + element.status);
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
